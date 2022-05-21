@@ -1,6 +1,30 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import {RootState} from "../../store";
 
-export const loadCountries = createAsyncThunk(
+import {AxiosStatic} from "axios"
+import {ApiTypes} from "../../helpers/config"
+
+type CountriesExtra = {
+    api: ApiTypes;
+    client: AxiosStatic;
+}
+
+export type CountryTypes = {
+    capital: string;
+    flags: { svg: string, png: string };
+    independent: boolean;
+    name: string;
+    population: number;
+    region: string;
+}
+
+type CountriesState = {
+    status: string;
+    error: null | string;
+    list: CountryTypes[];
+}
+
+export const loadCountries = createAsyncThunk<CountryTypes[], undefined, {extra: CountriesExtra, rejectValue: string}>(
     '@@countries/load-countries',
 
     async (
@@ -10,18 +34,17 @@ export const loadCountries = createAsyncThunk(
             rejectWithValue
         }
     ) => {
-
-        try {
-            return await client.get(api.ALL_COUNTRIES)
-                .then(({data}) => data)
-                .catch(err => err.message)
-        } catch (e) {
-            return rejectWithValue({e})
-        }
+        return await client.get(api.ALL_COUNTRIES)
+            .then(({data}) => {
+                return data
+            })
+            .catch(err => {
+                return rejectWithValue(err.message)
+            })
     }
 )
 
-const initialState = {
+const initialState: CountriesState = {
     status: 'idle', // loading | received | rejected
     error: null,
     list: [],
@@ -38,7 +61,7 @@ const countriesSlice = createSlice({
                 loadCountries.fulfilled,
                 (state, action) => {
                     state.status = 'received'
-                    state.list = action.payload
+                    state.list = action.payload!
                 }
             )
 
@@ -54,7 +77,8 @@ const countriesSlice = createSlice({
                 loadCountries.rejected,
                 (state, action) => {
                     state.status = 'rejected'
-                    state.error = action.payload || action.meta.error
+                    if (typeof action.payload === 'string') state.error = action.payload
+                    // state.error = action.payload || action.meta.error
                 }
             )
     },
@@ -64,15 +88,15 @@ const countriesSlice = createSlice({
 export const countriesReducer = countriesSlice.reducer
 
 //selectors
-export const selectCountriesInfo = (state) => ({
+export const selectCountriesInfo = (state: RootState) => ({
     status: state.countries.status,
     error: state.countries.error,
     qty: state.countries.list.length
 })
 
-export const selectAllCountries = (state) => state.countries.list
+export const selectAllCountries = (state: RootState) => state.countries.list
 
-export const selectVisibleCountries = (state, {search = '', region = ''}) => {
+export const selectVisibleCountries = (state: RootState, {search = '', region = ''}) => {
     return state.countries.list
         .filter(i => {
             return(

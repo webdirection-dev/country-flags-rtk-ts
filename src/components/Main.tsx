@@ -1,5 +1,6 @@
-import styled from 'styled-components';
-import { Container } from './Container';
+import React from "react"
+import styled from 'styled-components'
+import { Container } from './Container'
 
 const Wrapper = styled.main`
   padding: 2rem 0;
@@ -9,7 +10,11 @@ const Wrapper = styled.main`
   }
 `;
 
-export const Main = ({ children }) => {
+interface IMain {
+    children: React.ReactNode
+}
+
+export const Main: React.FC<IMain> = ({ children }) => {
     return (
         <Wrapper>
             <Container>{children}</Container>

@@ -1,4 +1,7 @@
-import styled from 'styled-components';
+import React from "react"
+import {ICountryInfo} from "../features/countries/CountryList";
+
+import styled from 'styled-components'
 
 const Wrapper = styled.article`
   border-radius: var(--radii);
@@ -43,7 +46,11 @@ const CardListItem = styled.li`
   }
 `;
 
-export const Card = ({ img, name, info = [], onClick }) => {
+interface ICard extends ICountryInfo {
+    onClick: React.MouseEventHandler<HTMLElement>;
+}
+
+export const Card: React.FC<ICard> = ({ img, name, info = [], onClick }) => {
     return (
         <Wrapper onClick={onClick}>
             <CardImage src={img} alt={name} />

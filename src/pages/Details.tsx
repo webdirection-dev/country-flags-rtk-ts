@@ -5,7 +5,6 @@ import { Button } from '../components/Button';
 
 import CountryDetails from "../features/details/CountryDetails";
 
-
 export const Details = () => {
     const { name } = useParams();
     const navigate = useNavigate()
@@ -16,7 +15,7 @@ export const Details = () => {
                 <IoArrowBack /> Back
             </Button>
 
-            <CountryDetails name={name} navigate={navigate}/>
+            <CountryDetails name={name as string} navigate={navigate}/>
         </div>
     );
 };

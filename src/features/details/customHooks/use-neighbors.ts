@@ -1,10 +1,10 @@
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../../helpers/hook";
 import {loadNeighborsByBorders, selectNeighbors} from "../details-slice";
 
 export const useNeighbors = (borders = []) => {
-    const dispatch = useDispatch()
-    const neighbors = useSelector(selectNeighbors)
+    const dispatch = useAppDispatch()
+    const neighbors = useAppSelector(selectNeighbors)
 
     useEffect(() => {
         if (borders.length) dispatch(loadNeighborsByBorders(borders))

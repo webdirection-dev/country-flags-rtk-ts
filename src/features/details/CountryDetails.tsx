@@ -1,8 +1,17 @@
-import {useDetails} from "./customHooks/use-details";
-import {Info} from "./Info";
+import React from "react"
+import {NavigateFunction} from 'react-router-dom'
 
-const CountryDetails = ({name = '', navigate}) => {
+import {useDetails} from "./customHooks/use-details"
+import {Info} from "./Info"
+
+interface IDetails {
+    name: string;
+    navigate: NavigateFunction;
+}
+
+const CountryDetails: React.FC<IDetails> = ({name = '', navigate}) => {
     const {status, error, currentCountry} = useDetails(name)
+
 
     return(
         <>

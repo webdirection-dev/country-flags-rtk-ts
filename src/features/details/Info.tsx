@@ -1,5 +1,9 @@
-import {useNeighbors} from "./customHooks/use-neighbors";
-import styled from 'styled-components';
+import React from "react"
+import {NavigateFunction} from 'react-router-dom'
+import {CurrentCountryTypes} from "./details-slice";
+
+import {useNeighbors} from "./customHooks/use-neighbors"
+import styled from 'styled-components'
 
 const Wrapper = styled.section`
   margin-top: 3rem;
@@ -87,7 +91,13 @@ const Tag = styled.span`
   cursor: pointer;
 `;
 
-export const Info = (props) => {
+type TNavigate = {
+    push: NavigateFunction;
+}
+
+type TInfo = CurrentCountryTypes & TNavigate
+
+export const Info: React.FC<TInfo> = (props) => {
     const {
         name,
         nativeName,

@@ -1,11 +1,11 @@
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../../helpers/hook";
 
 import {clearDetails, loadCountryByName, selectDetails} from "../details-slice";
 
-export const useDetails = (name) => {
-    const dispatch = useDispatch()
-    const details = useSelector(selectDetails);
+export const useDetails = (name: string) => {
+    const dispatch = useAppDispatch()
+    const details = useAppSelector(selectDetails);
 
     useEffect(() => {
         dispatch(loadCountryByName(name))

@@ -1,3 +1,4 @@
+import React from "react";
 import styled from 'styled-components';
 
 const Wrapper = styled.section`
@@ -21,6 +22,10 @@ const Wrapper = styled.section`
   }
 `;
 
-export const List = ({ children }) => {
+interface IList {
+    children: React.ReactNode
+}
+
+export const List: React.FC<IList> = ({ children }) => {
     return <Wrapper>{children}</Wrapper>;
 };
